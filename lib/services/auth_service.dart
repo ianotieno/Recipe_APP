@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:recepies/services/http_service.dart';
 
@@ -14,13 +12,16 @@ class AuthService {
   AuthService._internal();
 
   Future<bool> login(String username, String password) async {
-    try{
- var response = await _httpService.post('auth/login', {
-      "username": username,
-      "password": password,
-    });
-    print(response?.statusCode);
-    }catch(e){
+    try {
+      var response = await _httpService.post('auth/login', {
+        "username": username,
+        "password": password,
+      });
+      if (response?.statusCode == 200 && response?.data != null) {
+        print(response?.data);
+      }
+      ;
+    } catch (e) {
       print(e);
     }
     return false;
