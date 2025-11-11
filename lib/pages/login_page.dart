@@ -10,24 +10,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  GlobalKey<FormState> _loginFormKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: const Text('Login Page')),
-      body: _buildUI(),
+      body: SafeArea(child: _buildUI()),
     );
   }
 
   Widget _buildUI() {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-     children: [
-      _title(),
-      _loginForm(),
-    ],
-  );
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+       children: [
+        _title(),
+        _loginForm(),
+      ],
+        ),
+    );
   }
   Widget _title(){
     return const Text(
@@ -43,12 +49,16 @@ class _LoginPageState extends State<LoginPage> {
     return  SizedBox(
       width: MediaQuery.sizeOf(context).width * 0.90,
       height: MediaQuery.sizeOf(context).height * 0.30,
-      child: Form(child: Column(
+      child: Form(
+      key: _loginFormKey,  
+      child: Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextFormField(
+            validator: (value) => (value == null || value.isEmpty) ? 
+            'Please enter username' : null,
             decoration: InputDecoration(
               labelText: 'Username',
               border: OutlineInputBorder(
@@ -83,7 +93,9 @@ class _LoginPageState extends State<LoginPage> {
       width: MediaQuery.sizeOf(context).width * 0.60,
       child:ElevatedButton(
       onPressed: () {
-        // Handle login logic here
+        if (_loginFormKey.currentState?.validate() ?? false) {
+          // Process login
+        }
       },
       child: const Text('Login'),
     ));
