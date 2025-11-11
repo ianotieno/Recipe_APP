@@ -57,8 +57,12 @@ class _LoginPageState extends State<LoginPage> {
       crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextFormField(
-            validator: (value) => (value == null || value.isEmpty) ? 
-            'Please enter username' : null,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your username';
+              }
+              return null;
+            },
             decoration: InputDecoration(
               labelText: 'Username',
               border: OutlineInputBorder(
@@ -69,6 +73,12 @@ class _LoginPageState extends State<LoginPage> {
           ),
           const SizedBox(height: 20),
           TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your password';
+              }
+              return null;
+            },
             obscureText: true,
             decoration: InputDecoration(
               labelText: 'Password',
