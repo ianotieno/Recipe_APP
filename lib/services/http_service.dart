@@ -33,8 +33,9 @@ class HTTPService {
   Future<Response?> post(String path,Map data)async{
     try{
       final response = await _dio.post(path,data: data);
-     
+       return response;
   }
+
   catch(e){
     print(e);
   }
