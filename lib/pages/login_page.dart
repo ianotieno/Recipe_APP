@@ -70,8 +70,8 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 20),
             TextFormField(
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
+                if (value == null || value.length < 3) {
+                  return 'Please valid password';
                 }
                 return null;
               },
