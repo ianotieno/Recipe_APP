@@ -107,20 +107,42 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginButton() {
-    return SizedBox(
-      width: MediaQuery.sizeOf(context).width * 0.60,
-      child: ElevatedButton(
-        onPressed: () async{
-          if (_loginFormKey.currentState?.validate() ?? false) {
-            _loginFormKey.currentState?.save();
-             bool result = await AuthService().login(_username!, _password!);
+  return SizedBox(
+    width: MediaQuery.sizeOf(context).width * 0.60,
+    child: ElevatedButton(
+      onPressed: () async {
+        if (_loginFormKey.currentState?.validate() ?? false) {
+          _loginFormKey.currentState?.save();
 
-            }
-        },
-        child: const Text('Login'),
-      ),
-    );
-  }
+          bool result = await AuthService().login(_username!, _password!);
+          print('Login result: $result');
+
+          if (result) {
+            // ✅ Success alert
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Login Successful!'),
+                backgroundColor: Colors.green,
+                duration: Duration(seconds: 2),
+              ),
+            );
+          } else {
+            // ❌ Failure alert
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Login Failed! Invalid username or password.'),
+                backgroundColor: Colors.red,
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+        }
+      },
+      child: const Text('Login'),
+    ),
+  );
+}
+
 
   Widget _forgotPasswordButton() {
     return SizedBox(

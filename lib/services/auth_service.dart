@@ -20,7 +20,9 @@ class AuthService {
       });
       if (response?.statusCode == 200 && response?.data != null) {
         user = User.fromJson(response!.data);
-        print ('Login successful: ${user?.username}, ${user?.email}');    }
+        HTTPService().setup(bearerToken: user!.accessToken);
+        return true;
+          }
       ;
     } catch (e) {
       print(e);
