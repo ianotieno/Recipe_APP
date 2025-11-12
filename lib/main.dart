@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recepies/pages/home.dart';
 import 'package:recepies/pages/login_page.dart';
 
 void main() {
@@ -28,7 +29,12 @@ class MyApp extends StatelessWidget {
        )
       
     ),
-    home: LoginPage(),
+    initialRoute: "/login",
+    routes:{
+      "/login":(context)=> const LoginPage(),
+      "/home":(context)=> const Home(),
+
+    }
     );
   }
   

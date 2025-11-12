@@ -17,6 +17,9 @@ class HTTPService {
 
   Future<void> setup({String? bearerToken}) async {
     final headers = {"Content-Type": "application/json"};
+    //if( bearerToken! =null){
+    //  headers["Authorized"]="Bearer $bearerToken";
+   // }
     final options = BaseOptions( 
       headers: headers,
       baseUrl: API_BASE_URL,
