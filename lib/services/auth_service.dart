@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:recepies/models/user.dart';
 import 'package:recepies/services/http_service.dart';
 
 class AuthService {
   static final AuthService _singleton = AuthService._internal();
 
   final _httpService = HTTPService();
-
+  User? user;
   factory AuthService() {
     return _singleton;
   }
@@ -18,8 +19,8 @@ class AuthService {
         "password": password,
       });
       if (response?.statusCode == 200 && response?.data != null) {
-        print(response?.data);
-      }
+        user = User.fromJson(response!.data);
+        print ('Login successful: ${user?.username}, ${user?.email}');    }
       ;
     } catch (e) {
       print(e);
