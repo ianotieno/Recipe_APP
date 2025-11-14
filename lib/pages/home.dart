@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
                 onTap: () {
                  Navigator.push(context,
                  MaterialPageRoute(builder: (context) 
-                 { return RecipePage(); } )
+                 { return RecipePage(recipe: recipe,); } )
                   );
                 },
                 isThreeLine: true,
