@@ -74,31 +74,39 @@ class _HomeState extends State<Home> {
           if (!snapshot.hasData || snapshot.data == null) {
             return const Center(child: Text('No recipes found'));
           }
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              Recipe recipe = snapshot.data![index];
-              return ListTile(
-                isThreeLine: true,
-                subtitle: Text(
-                    '${recipe.cuisine}  | Difficulty : ${recipe.difficulty}\n'
-                  'Prep Time: ${recipe.prepTimeMinutes} mins | Servings: ${recipe.servings}'),
-                leading: recipe.image != null
-                    ? Image.network(
-                        recipe.image!,
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
-                      )
-                    : Container(
-                        width: 60,
-                        height: 60,
-                        color: Colors.grey,
-                        child: const Icon(Icons.image_not_supported),
-                      ),
-                 title: Text(recipe.name),);
-            },
-          );
+          return ListView.separated(
+  itemCount: snapshot.data!.length,
+  separatorBuilder: (context, index) => const Divider(
+    height: 1,
+    thickness: 1,
+    indent: 16,
+    endIndent: 16,
+    color: Colors.grey,
+  ), // This adds a line between items
+  itemBuilder: (context, index) {
+    Recipe recipe = snapshot.data![index];
+    return ListTile(
+      isThreeLine: true,
+      subtitle: Text(
+        '${recipe.cuisine}  | Difficulty: ${recipe.difficulty}\n'
+        'Prep Time: ${recipe.prepTimeMinutes} mins | Servings: ${recipe.servings}',
+      ),
+      leading: Image.network(
+        recipe.image!,
+        width: 60,
+        height: 60,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return const Icon(Icons.broken_image);
+        },
+      ),
+      title: Text(
+        recipe.name,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  },
+);
         },
       ),
     );
