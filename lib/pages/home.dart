@@ -82,8 +82,21 @@ class _HomeState extends State<Home> {
                 isThreeLine: true,
                 subtitle: Text(
                     '${recipe.cuisine}  | Difficulty : ${recipe.difficulty}\n'
-                  'Prep Time: ${recipe.prepTimeMinutes} mins | Cook Time: ${recipe.cookTimeMinutes} mins | Servings: ${recipe.servings}'),
-                title: Text(recipe.name),);
+                  'Prep Time: ${recipe.prepTimeMinutes} mins | Servings: ${recipe.servings}'),
+                leading: recipe.image != null
+                    ? Image.network(
+                        recipe.image!,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        width: 60,
+                        height: 60,
+                        color: Colors.grey,
+                        child: const Icon(Icons.image_not_supported),
+                      ),
+                 title: Text(recipe.name),);
             },
           );
         },
