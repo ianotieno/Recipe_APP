@@ -14,6 +14,7 @@ class RecipePage extends StatelessWidget {
       appBar: AppBar(centerTitle: true, 
       title: const Text('Recipe Details')),
       body: SafeArea(
+      
         child: _buildUI(context),
       ),
     );
