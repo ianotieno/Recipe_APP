@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
             child: FilledButton(
               onPressed: () {
                 setState(() {
-                  _mealTypeFilter = "snacks";
+                  _mealTypeFilter = "snack";
                 });
               },
               child: const Text('🥕 Snacks'),
@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
   Widget _recipesList() {
     return Expanded(
       child: FutureBuilder(
-        future: DataService().getRecipes(),
+        future: DataService().getRecipes(_mealTypeFilter),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
