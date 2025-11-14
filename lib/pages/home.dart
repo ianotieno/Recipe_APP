@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
                   indent: 16,
                   endIndent: 16,
                   color: Colors.grey,
-                ), // This adds a line between items
+                ), 
             itemBuilder: (context, index) {
               Recipe recipe = snapshot.data![index];
               return ListTile(
