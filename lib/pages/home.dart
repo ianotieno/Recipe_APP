@@ -37,6 +37,17 @@ class _HomeState extends State<Home> {
             child: FilledButton(
               onPressed: () {
                 setState(() {
+                  _mealTypeFilter = "";
+                });
+              },
+              child: const Text('🍱 All'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: FilledButton(
+              onPressed: () {
+                setState(() {
                   _mealTypeFilter = "snack";
                 });
               },
@@ -105,6 +116,7 @@ class _HomeState extends State<Home> {
             itemBuilder: (context, index) {
               Recipe recipe = snapshot.data![index];
               return ListTile(
+                onTap: () {},
                 isThreeLine: true,
                 subtitle: Text(
                   '${recipe.cuisine}  | Difficulty: ${recipe.difficulty}\n'
