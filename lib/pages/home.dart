@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recepies/models/recipe.dart';
+import 'package:recepies/pages/recipe_page.dart';
 import 'package:recepies/services/data_service.dart';
 
 class Home extends StatefulWidget {
@@ -116,7 +117,12 @@ class _HomeState extends State<Home> {
             itemBuilder: (context, index) {
               Recipe recipe = snapshot.data![index];
               return ListTile(
-                onTap: () {},
+                onTap: () {
+                 Navigator.push(context,
+                 MaterialPageRoute(builder: (context) 
+                 { return RecipePage(); } )
+                  );
+                },
                 isThreeLine: true,
                 subtitle: Text(
                   '${recipe.cuisine}  | Difficulty: ${recipe.difficulty}\n'
