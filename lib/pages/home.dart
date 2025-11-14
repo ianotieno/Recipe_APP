@@ -10,6 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String _mealTypeFilter = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +20,8 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildUI() {
-    return Container(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(children: [_recipeTypeButtons(), _recipesList()]),
     );
   }
@@ -33,28 +35,44 @@ class _HomeState extends State<Home> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _mealTypeFilter = "snacks";
+                });
+              },
               child: const Text('🥕 Snacks'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _mealTypeFilter = "breakfast";
+                });
+              },
               child: const Text('🍳 Brdeakfast'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _mealTypeFilter = "lunch";
+                });
+              },
               child: const Text('🥩 lunch'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _mealTypeFilter = "dinner";
+                });
+              },
               child: const Text('🍗 Dinner'),
             ),
           ),
@@ -75,39 +93,47 @@ class _HomeState extends State<Home> {
             return const Center(child: Text('No recipes found'));
           }
           return ListView.separated(
-  itemCount: snapshot.data!.length,
-  separatorBuilder: (context, index) => const Divider(
-    height: 1,
-    thickness: 1,
-    indent: 16,
-    endIndent: 16,
-    color: Colors.grey,
-  ), // This adds a line between items
-  itemBuilder: (context, index) {
-    Recipe recipe = snapshot.data![index];
-    return ListTile(
-      isThreeLine: true,
-      subtitle: Text(
-        '${recipe.cuisine}  | Difficulty: ${recipe.difficulty}\n'
-        'Prep Time: ${recipe.prepTimeMinutes} mins | Servings: ${recipe.servings}',
-      ),
-      leading: Image.network(
-        recipe.image!,
-        width: 60,
-        height: 60,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return const Icon(Icons.broken_image);
-        },
-      ),
-      title: Text(
-        recipe.name,
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-      trailing: Text("${recipe.rating.toString()} ⭐"),
-    );
-  },
-);
+            itemCount: snapshot.data!.length,
+            separatorBuilder:
+                (context, index) => const Divider(
+                  height: 1,
+                  thickness: 1,
+                  indent: 16,
+                  endIndent: 16,
+                  color: Colors.grey,
+                ), // This adds a line between items
+            itemBuilder: (context, index) {
+              Recipe recipe = snapshot.data![index];
+              return ListTile(
+                isThreeLine: true,
+                subtitle: Text(
+                  '${recipe.cuisine}  | Difficulty: ${recipe.difficulty}\n'
+                  'Prep Time: ${recipe.prepTimeMinutes} mins | Servings: ${recipe.servings}',
+                ),
+                trailing: Text(
+                  "${recipe.rating.toString()} ⭐",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+
+                leading: Image.network(
+                  recipe.image!,
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(Icons.broken_image);
+                  },
+                ),
+                title: Text(
+                  recipe.name,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              );
+            },
+          );
         },
       ),
     );
