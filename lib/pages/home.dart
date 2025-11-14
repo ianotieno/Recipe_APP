@@ -104,6 +104,7 @@ class _HomeState extends State<Home> {
         recipe.name,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
+      trailing: Text("${recipe.rating.toString()} ⭐"),
     );
   },
 );
