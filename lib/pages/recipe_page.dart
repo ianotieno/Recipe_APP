@@ -18,10 +18,10 @@ class RecipePage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // 1. FIXED IMAGE (does NOT scroll)
+         
           _recipeImage(context),
 
-          // 2. SCROLLABLE TEXT CONTENT
+    
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -39,9 +39,7 @@ class RecipePage extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------
-  // 1. Fixed Image (full width, fixed height)
-  // -------------------------------------------------
+
   Widget _recipeImage(BuildContext context) {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width,

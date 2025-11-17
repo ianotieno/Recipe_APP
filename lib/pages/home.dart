@@ -1,7 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:recepies/models/recipe.dart';
+import 'package:recepies/pages/favoritesPage.dart';
 import 'package:recepies/pages/recipe_page.dart';
+import 'package:recepies/pages/settings.dart';
 import 'package:recepies/services/data_service.dart';
 
 class Home extends StatefulWidget {
@@ -16,22 +18,44 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: const Text('Recipe Book')),
+      appBar: AppBar(
+      centerTitle: true, 
+      title: const Text('Recipe Book'),
+      titleTextStyle: TextStyle(color: const Color(0xFF8F4C39), fontSize: 24, fontWeight: FontWeight.bold),
+      ),
       body: SafeArea(child: _buildUI()),
 
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        color: Color(0xFF8F4C39),
-        height: 50,
-        items: const [
-          Icon(Icons.home, size: 30, color: Colors.white),
-          Icon(Icons.favorite, size: 30, color: Colors.white),
-          Icon(Icons.settings, size: 30, color: Colors.white),
-        ],
-        onTap: (index) {
-          // Handle navigation tap
-        },
-      )
+  bottomNavigationBar: CurvedNavigationBar(
+  key: const Key('curved_nav'), // optional, good for testing
+  backgroundColor: Colors.transparent,
+  color: const Color(0xFF8F4C39),
+  height: 60,
+  animationDuration: const Duration(milliseconds: 300),
+  items: const [
+    Icon(Icons.home, size: 30, color: Colors.white),
+    Icon(Icons.favorite, size: 30, color: Colors.white),
+    Icon(Icons.settings, size: 30, color: Colors.white),
+  ],
+  onTap: (index) {
+    if (index == 0) {
+      
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const Home()), // your current page
+      );
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const FavoritesPage()), // create this page
+      );
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const Settings()), // create this page
+      );
+    }
+  },
+),
     );
   }
 
