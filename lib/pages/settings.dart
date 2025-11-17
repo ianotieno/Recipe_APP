@@ -337,7 +337,7 @@ class _SettingsState extends State<Settings> {
           ),
           SizedBox(height: 4),
           Text(
-            '© 2024 Recipe App. All rights reserved.',
+            '© 2025 Recipe App. All rights reserved.',
             style: TextStyle(
               fontSize: 12,
               color: Colors.grey,
