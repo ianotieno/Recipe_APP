@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:recepies/models/recipe.dart';
 import 'package:recepies/pages/recipe_page.dart';
@@ -17,13 +18,32 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: const Text('Recipe Book')),
       body: SafeArea(child: _buildUI()),
+
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        color: Color(0xFF8F4C39),
+        height: 50,
+        items: const [
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.favorite, size: 30, color: Colors.white),
+          Icon(Icons.settings, size: 30, color: Colors.white),
+        ],
+        onTap: (index) {
+          // Handle navigation tap
+        },
+      )
     );
   }
 
   Widget _buildUI() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(children: [_recipeTypeButtons(), _recipesList()]),
+      child: Column(children:
+       [
+        _recipeTypeButtons(),
+        _recipesList(),
+      
+        ]),
     );
   }
 
@@ -157,3 +177,5 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+
