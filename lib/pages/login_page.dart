@@ -15,37 +15,111 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey();
   String? _username, _password;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: const Text('Login Page')),
+      backgroundColor: Colors.white,
       body: SafeArea(child: _buildUI()),
     );
   }
 
   Widget _buildUI() {
-    return SizedBox(
+    return Container(
       width: MediaQuery.sizeOf(context).width,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [_title(), _loginForm()],
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFFFFFBFF),
+            Color(0xFFF5F5F5),
+          ],
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _logo(),
+            const SizedBox(height: 40),
+            _title(),
+            const SizedBox(height: 40),
+            _loginForm(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _logo() {
+    return Container(
+      width: 120,
+      height: 120,
+      decoration: BoxDecoration(
+        color: const Color(0xFF8F4C39),
+        borderRadius: BorderRadius.circular(60),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF8F4C39).withOpacity(0.3),
+            blurRadius: 15,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: const Icon(
+        Icons.restaurant_menu,
+        size: 60,
+        color: Colors.white,
       ),
     );
   }
 
   Widget _title() {
-    return const Text(
-      'Welcome to Recipe App',
-      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return Column(
+      children: [
+        Text(
+          "Welcome to Recipe App",
+          style: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF8F4C39),
+            height: 1.2,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          "Let's get you logged in!",
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.grey[700],
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 
   Widget _loginForm() {
-    return SizedBox(
+    return Container(
       width: MediaQuery.sizeOf(context).width * 0.90,
-
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Form(
         key: _loginFormKey,
         child: Column(
@@ -68,9 +142,22 @@ class _LoginPageState extends State<LoginPage> {
               },
               decoration: InputDecoration(
                 labelText: 'Username',
+                labelStyle: const TextStyle(color: Color(0xFF8F4C39)),
+                prefixIcon: const Icon(Icons.person, color: Color(0xFF8F4C39)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Colors.grey),
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFF8F4C39), width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey.shade400),
+                ),
+                filled: true,
+                fillColor: Colors.grey[50],
               ),
             ),
             const SizedBox(height: 20),
@@ -84,19 +171,32 @@ class _LoginPageState extends State<LoginPage> {
               },
               validator: (value) {
                 if (value == null || value.length < 3) {
-                  return 'Please valid password';
+                  return 'Please enter a valid password';
                 }
                 return null;
               },
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
+                labelStyle: const TextStyle(color: Color(0xFF8F4C39)),
+                prefixIcon: const Icon(Icons.lock, color: Color(0xFF8F4C39)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Colors.grey),
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFF8F4C39), width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey.shade400),
+                ),
+                filled: true,
+                fillColor: Colors.grey[50],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             _loginButton(),
             const SizedBox(height: 20),
             _forgotPasswordButton(),
@@ -108,7 +208,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _loginButton() {
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width * 0.60,
+      width: double.infinity,
+      height: 55,
       child: ElevatedButton(
         onPressed: () async {
           if (_loginFormKey.currentState?.validate() ?? false) {
@@ -137,7 +238,22 @@ class _LoginPageState extends State<LoginPage> {
             }
           }
         },
-        child: const Text('Login'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF8F4C39),
+          foregroundColor: Colors.white,
+          elevation: 5,
+          shadowColor: const Color(0xFF8F4C39).withOpacity(0.3),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: const Text(
+          'Login',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
@@ -149,7 +265,16 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           // Handle forgot password logic here
         },
-        child: const Text('Forgot Password?'),
+        style: TextButton.styleFrom(
+          foregroundColor: const Color(0xFF8F4C39),
+        ),
+        child: const Text(
+          'Forgot Password?',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ),
     );
   }

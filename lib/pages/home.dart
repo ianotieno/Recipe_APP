@@ -15,59 +15,97 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String _mealTypeFilter = "";
+  int _currentIndex = 0;
+  final PageController _pageController = PageController();
+
+  final List<Widget> _pages = [
+    const HomeContent(), // We'll extract the home content to a separate widget
+    const FavoritesPage(),
+    const Settings(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      centerTitle: true, 
-      title: const Text('Recipe Book'),
-      titleTextStyle: TextStyle(color: const Color(0xFF8F4C39), fontSize: 24, fontWeight: FontWeight.bold),
+      appBar: _buildAppBar(),
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(), 
+        children: _pages,
       ),
-      body: SafeArea(child: _buildUI()),
-
-  bottomNavigationBar: CurvedNavigationBar(
-  key: const Key('curved_nav'), // optional, good for testing
-  backgroundColor: Colors.transparent,
-  color: const Color(0xFF8F4C39),
-  height: 60,
-  animationDuration: const Duration(milliseconds: 300),
-  items: const [
-    Icon(Icons.home, size: 30, color: Colors.white),
-    Icon(Icons.favorite, size: 30, color: Colors.white),
-    Icon(Icons.settings, size: 30, color: Colors.white),
-  ],
-  onTap: (index) {
-    if (index == 0) {
-      
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const Home()), // your current page
-      );
-    } else if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const FavoritesPage()), // create this page
-      );
-    } else if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const Settings()), // create this page
-      );
-    }
-  },
-),
+      bottomNavigationBar: CurvedNavigationBar(
+        key: const Key('curved_nav'),
+        backgroundColor: Colors.transparent,
+        color: const Color(0xFF8F4C39),
+        height: 60,
+        animationDuration: const Duration(milliseconds: 300),
+        index: _currentIndex,
+        items: const [
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.favorite, size: 30, color: Colors.white),
+          Icon(Icons.settings, size: 30, color: Colors.white),
+        ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          _pageController.jumpToPage(index);
+        },
+      ),
     );
   }
 
-  Widget _buildUI() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(children:
-       [
-        _recipeTypeButtons(),
-        _recipesList(),
-      
-        ]),
+  AppBar _buildAppBar() {
+    String title;
+    switch (_currentIndex) {
+      case 0:
+        title = 'Recipe Book';
+        break;
+      case 1:
+        title = 'Favorites';
+        break;
+      case 2:
+        title = 'Settings';
+        break;
+      default:
+        title = 'Recipe Book';
+    }
+
+    return AppBar(
+      centerTitle: true,
+      title: Text(title),
+      titleTextStyle: TextStyle(
+        color: const Color(0xFF8F4C39),
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
+// Extract home content to a separate widget
+class HomeContent extends StatefulWidget {
+  const HomeContent({super.key});
+
+  @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  String _mealTypeFilter = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            _recipeTypeButtons(),
+            _recipesList(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -107,7 +145,7 @@ class _HomeState extends State<Home> {
                   _mealTypeFilter = "breakfast";
                 });
               },
-              child: const Text('🍳 Brdeakfast'),
+              child: const Text('🍳 Breakfast'),
             ),
           ),
           Padding(
@@ -118,7 +156,7 @@ class _HomeState extends State<Home> {
                   _mealTypeFilter = "lunch";
                 });
               },
-              child: const Text('🥩 lunch'),
+              child: const Text('🥩 Lunch'),
             ),
           ),
           Padding(
@@ -150,21 +188,22 @@ class _HomeState extends State<Home> {
           }
           return ListView.separated(
             itemCount: snapshot.data!.length,
-            separatorBuilder:
-                (context, index) => const Divider(
-                  height: 1,
-                  thickness: 1,
-                  indent: 16,
-                  endIndent: 16,
-                  color: Colors.grey,
-                ), 
+            separatorBuilder: (context, index) => const Divider(
+              height: 1,
+              thickness: 1,
+              indent: 16,
+              endIndent: 16,
+              color: Colors.grey,
+            ),
             itemBuilder: (context, index) {
               Recipe recipe = snapshot.data![index];
               return ListTile(
                 onTap: () {
-                 Navigator.push(context,
-                 MaterialPageRoute(builder: (context) 
-                 { return RecipePage(recipe: recipe,); } )
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RecipePage(recipe: recipe),
+                    ),
                   );
                 },
                 isThreeLine: true,
@@ -179,7 +218,6 @@ class _HomeState extends State<Home> {
                     fontSize: 16,
                   ),
                 ),
-
                 leading: Image.network(
                   recipe.image!,
                   width: 60,
@@ -201,5 +239,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-

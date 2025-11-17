@@ -11,14 +11,13 @@ class RecipePage extends StatelessWidget {
   return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Recipe Details'),
+        
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: Column(
         children: [
-         
+          
           _recipeImage(context),
 
     
@@ -52,7 +51,7 @@ class RecipePage extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         },
         errorBuilder: (context, error, stackTrace) {
-          return const Center(child: Icon(Icons.error, color: Colors.red));
+          return const Center(child: Icon(Icons.error, color: Color.fromARGB(255, 237, 236, 236)));
         },
       ),
     );
@@ -69,11 +68,12 @@ class RecipePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Cuisine : ${recipe.cuisine}",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
-          const SizedBox(height: 4),
+          
           Text(recipe.name,
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 4),
+          Text("Cuisine : ${recipe.cuisine}",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
           const SizedBox(height: 4),
           Text(
             "Prep Time: ${recipe.prepTimeMinutes} Min | "

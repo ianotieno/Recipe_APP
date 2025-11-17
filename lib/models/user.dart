@@ -1,4 +1,3 @@
-
 class User {
   final int id;
   final String username;
@@ -22,7 +21,6 @@ class User {
     required this.refreshToken,
   });
 
-  // Factory constructor to parse JSON
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'] as int,
@@ -37,7 +35,6 @@ class User {
     );
   }
 
-  // Convert User object to JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -52,7 +49,6 @@ class User {
     };
   }
 
-  // copyWith method for immutable updates
   User copyWith({
     int? id,
     String? username,
