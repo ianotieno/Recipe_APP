@@ -1,14 +1,18 @@
 [build]
   command = """
-    if cd flutter; then git pull && cd ..; else git clone https://github.com/flutter/flutter.git; fi &&
-    flutter/bin/flutter channel stable &&
-    flutter/bin/flutter config --enable-web &&
-    flutter/bin/flutter pub get &&
-    flutter/bin/flutter build web --release --web-renderer html --csp
+    if [ -d \"flutter\" ]; then
+      cd flutter && git pull && cd ..
+    else
+      git clone -b stable https://github.com/flutter/flutter.git
+    fi &&
+    export PATH=\"$PWD/flutter/bin:$PATH\" &&
+    flutter config --enable-web &&
+    flutter precache &&
+    flutter pub get &&
+    flutter build web --release --dart-define=FLUTTER_WEB_USE_SKIA=false --csp
   """
   publish = "build/web"
-  base = "."
 
 [build.environment]
-  # Optional: Speeds up future builds by caching Flutter (Netlify auto-caches ~/.git)
-  FLUTTER_ROOT = "/opt/buildhome/flutter"
+  # Helps Netlify cache the huge Flutter folder between builds
+  FLUTTER_ROOT = "./flutter"
