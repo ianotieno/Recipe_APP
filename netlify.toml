@@ -1,0 +1,7 @@
+[build]
+  command = "flutter build web --release --web-renderer html --csp"
+  publish = "build/web"
+  base = "."
+
+[build.environment]
+  FLUTTER_ROOT = "/opt/buildhome/flutter"
