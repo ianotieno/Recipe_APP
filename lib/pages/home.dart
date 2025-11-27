@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:recepies/models/recipe.dart';
+import 'package:recepies/pages/addRecipePage.dart';
 import 'package:recepies/pages/favoritesPage.dart';
 import 'package:recepies/pages/recipe_page.dart';
 import 'package:recepies/pages/settings.dart';
@@ -52,7 +53,30 @@ class _HomeState extends State<Home> {
           _pageController.jumpToPage(index);
         },
       ),
+    floatingActionButton: _currentIndex == 0
+          ? FloatingActionButton(
+              backgroundColor: const Color(0xFF8F4C39),
+              child: const Icon(Icons.add, color: Colors.white),
+              onPressed: () async {
+                final bool? added = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AddRecipePage()),
+                );
+
+                // ← If a recipe was successfully added → refresh the list
+                
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Recipe added!"),
+                      backgroundColor: Colors.green,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
+              
+          ): null, // Hide FAB on other tabs (optional but cleaner)
     );
+    
   }
 
   AppBar _buildAppBar() {

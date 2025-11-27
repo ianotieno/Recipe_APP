@@ -23,4 +23,16 @@ class DataService {
       }
       return null;
   }
+  Future<Recipe?> addRecipe(Recipe recipe) async {
+    var response = await _httpService.post(
+      "recipes/add",
+      recipe.toJson(),
+    );
+    
+    if (response != null && response.statusCode == 200) {
+      return Recipe.fromJson(response.data);
+    }
+    return null;
+  }
+  
 }
